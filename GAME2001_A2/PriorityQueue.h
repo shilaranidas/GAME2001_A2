@@ -14,45 +14,46 @@ public:
 	~PriorityQueue() {}
 
 	// Priority Queue Functions
-	void push(T val)
+	void push(T val, int priority)
 	{
 		assert(m_elements.GetSize() < m_size);
 
-		if (m_elements.GetSize() == 0)
-		{
-			m_elements.Push_Back(val);
-		}
-		else
-		{
-			LinkIterator<T> it;
-			it = m_elements.Begin();
+		//if (m_elements.GetSize() == 0)
+		//{
+			m_elements.Push(val, priority);
+		//}
+		//else
+		//{
+		//	LinkIterator<T> it;
+		//	it = m_elements.Begin();
 
-			CMP cmp;	// Placeholder for the comparisons
+		//	CMP cmp;	// Placeholder for the comparisons
 
-			while (it.isValid())
-			{
-				if (cmp(val, *it))
-				{
-					break;	// Move the iterator to the place where we want to insert the new node into
-				}
+		//	while (it.isValid())
+		//	{
+		//		//if (cmp(val, *it))
+		//		if(cmp(priority,it.GetNodePriority()))
+		//		{
+		//			break;	// Move the iterator to the place where we want to insert the new node into
+		//		}
 
-				it++;
-			}
+		//		it++;
+		//	}
 
-			if (it.isValid())
-			{
-				m_elements.Insert_Before(it, val);
-			}
-			else
-			{
-				m_elements.Push_Back(val);
-			}
-		}
+		//	if (it.isValid())
+		//	{
+		//		m_elements.Insert_Before(it, val);
+		//	}
+		//	else
+		//	{
+		//		m_elements.Push(val,priority);
+		//	}
+		//}
 	}
 
 	void pop()
 	{
-		m_elements.Pop_Front();
+		m_elements.Pop();
 	}
 
 	T& front()

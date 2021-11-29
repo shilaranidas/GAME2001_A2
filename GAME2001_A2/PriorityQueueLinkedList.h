@@ -13,8 +13,36 @@ public:
 	// Give access to the private member variables
 	friend class LinkIterator<T>;
 	friend class LinkedList<T>;
+	LinkNode(T data, int priority) {
+		m_data = data; m_priority = priority; m_next = nullptr; m_previous = nullptr;
+	}
+	void SetData(T data) {
+		m_data = data;
+	}
+	void SetPriority(int priority) {
+		m_priority = priority;
+	}
+	T GetData() {
+		return m_data;
+	}
+	int GetPriority() {
+		return m_priority;
+	}
+	void SetNext(LinkNode* next) {
+		m_next = next;
+	}
+	void SetPrevious(LinkNode* previous) {
+		m_previous = previous;
+	}
+	LinkNode* GetNext() {
+		return m_next;
+	}
+	LinkNode* GetPrevious() {
+		return m_previous;
+	}
 private:
 	T m_data;
+	int m_priority;
 	LinkNode* m_next;	// Self-referencial Pointer
 	LinkNode* m_previous;
 };
@@ -32,6 +60,15 @@ public:
 		m_node = nullptr;
 	}
 	~LinkIterator() {}
+	LinkNode<T>* GetNode() {
+		return m_node;
+	}
+	T GetNodeData() {
+		return m_node->GetData();
+	}
+	int GetNodePriority() {
+		return m_node->GetPriority();
+	}
 	// ----------- OVERLOADED OPERATORS ------------------
 	// Assignmnet operator (=) <-- Set the iterator to point to a node  // a = b
 	void operator=(LinkNode<T>* node)
@@ -93,9 +130,9 @@ public:
 	LinkedList() : m_size(0), m_root(nullptr), m_lastNode(nullptr) {}
 	~LinkedList()
 	{
-		while (m_root)
+		while (m_lastNode)
 		{
-			Pop_Back();
+			Pop();
 		}
 	}
 	// --------------- POSITIONING FUNCTIONS ----------------------
@@ -114,7 +151,7 @@ public:
 		return m_lastNode;
 	}
 	// --------------- PRIORITY QUEUE FUNCTIONS --------------------
-	void Insert_Before(LinkIterator<T>& it, T newData)
+	void Insert_Before(LinkIterator<T>& it, T newData, int priority)
 	{
 		assert(it.m_node != nullptr);
 
@@ -122,6 +159,7 @@ public:
 		assert(node != nullptr);
 
 		node->m_data = newData;
+		node->m_priority = priority;
 		node->m_next = it.m_node;
 		node->m_previous = it.m_node->m_previous;
 
@@ -142,7 +180,7 @@ public:
 		m_size++;
 	}
 	 
-	void Insert_After(LinkIterator<T>& it, T newData)
+	void Insert_After(LinkIterator<T>& it, T newData, int priority)
 	{
 		assert(it.m_node != nullptr);
 
@@ -150,6 +188,7 @@ public:
 		assert(node != nullptr);
 
 		node->m_data = newData;
+		node->m_priority = priority;
 		node->m_next = it.m_node->m_next;
 		node->m_previous = it.m_node;
 
@@ -170,7 +209,56 @@ public:
 	}
 	
 	// --------------- LINKED LIST OPERATIONS ---------------------
-	void Push_Front(T newData)
+	void Push(T newData, int priority) {
+		LinkNode<T>* node = new LinkNode<T>;
+
+		assert(node != nullptr);
+		node->setData(newData);
+		node->setNextNode(nullptr);
+		node->setPreviousNode(nullptr);
+		node->setProiority(priority);
+		if (m_root != nullptr) // Linked List has at least 1 item
+		{
+			//node->m_next = m_root;
+			//m_root->m_previous = node;
+			//m_root = node;
+			//need to compare the priority
+			LinkIterator<T> it;
+			it = Begin();
+			while (it != End())
+			{
+				if (it == Last() && priority > it.getNode()->getProiority())
+				{
+					Insert_After(it, newData, priority);
+					break;
+				}
+				if (priority > it.getNode()->getProiority()) {
+					it++;
+				}
+				if (priority < it.getNode()->getProiority()) {
+					Insert_Before(it, newData, priority);
+					break;
+				}
+				if (priority == it.getNode()->getProiority())
+				{
+					while (it != Last() && priority == it.getNode()->getNextNode()->getProiority())
+					{
+						it++;
+					}
+					Insert_After(it, newData, priority);
+					break;
+				}
+			}
+
+		}
+		else // Linked list is empty
+		{
+			m_root = node;
+			m_lastNode = node;
+		}
+		m_size++;
+	}
+	/*void Push_Front(T newData)
 	{
 		// Create a new node (new root node)
 		LinkNode<T>* node = new LinkNode<T>;
@@ -193,8 +281,8 @@ public:
 		}
 
 		m_size++;
-	}
-	void Pop_Front()
+	}*/
+	void Pop()
 	{
 		assert(m_root != nullptr);
 
@@ -217,8 +305,9 @@ public:
 		temp = nullptr;
 
 		m_size = (m_size == 0 ? m_size : m_size - 1);
+		//cout << "Front node has been removed successfully" << endl;
 	}
-	void Push_Back(T newData)
+	/*void Push_Back(T newData)
 	{
 		// Create a standalone LinkNode object
 		LinkNode<T>* node = new LinkNode<T>;
@@ -266,7 +355,7 @@ public:
 		}
 
 		m_size = (m_size == 0 ? m_size : m_size - 1);	// Prevent negative sizes
-	}
+	}*/
 	int GetSize()
 	{
 		return m_size;

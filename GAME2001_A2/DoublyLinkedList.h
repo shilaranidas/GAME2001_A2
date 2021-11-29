@@ -152,6 +152,19 @@ public:
 		node->setNextNode(nullptr);
 		node->setPreviousNode(nullptr);
 		node->setProiority(priority);
+		if (m_root != nullptr) // Linked List has at least 1 item
+		{
+			//node->m_next = m_root;
+			//m_root->m_previous = node;
+			//m_root = node;
+			//need to compare the priority
+
+		}
+		else // Linked list is empty
+		{
+			m_root = node;
+			m_lastNode = node;
+		}
 		m_size++;
 	}
 	/*void Push_Front(T newData)

@@ -89,10 +89,10 @@ int main()
 	const int SIZE = 4;
 	PriorityQueue<NetworkMessage, less_cmp<NetworkMessage> > que(SIZE);
 
-	que.push(NetworkMessage(3, 100));
+	/*que.push(NetworkMessage(3, 100));
 	que.push(NetworkMessage(2, 286));
 	que.push(NetworkMessage(1, 362));
-	que.push(NetworkMessage(3, 435));
+	que.push(NetworkMessage(3, 435));*/
 
 	// Display the priority queue
 	cout << "Priority queue content (Size - " << que.GetSize() << ") : " << endl;
