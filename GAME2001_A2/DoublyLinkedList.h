@@ -13,8 +13,36 @@ public:
 	// Give access to the private member variables
 	friend class LinkIterator<T>;
 	friend class LinkedList<T>;
+	LinkNode(T data, int priority) {
+		m_data = data; m_priority = priority; m_next = nullptr; m_previous = nullptr;
+	}
+	void SetData(T data) {
+		m_data = data;
+	}
+	void SetPriority(int priority) {
+		m_priority = priority;
+	}
+	T GetData() {
+		return m_data;
+	}
+	int GetPriority() {
+		return m_priority
+	}
+	void SetNext(LinkNode* next) {
+		m_next = next;
+	}
+	void SetPrevious(LinkNode* previous) {
+		m_previous = previous;
+	}
+	LinkNode* GetNext() {
+		return m_next;
+	}
+	LinkNode* GetPrevious() {
+		return m_previous;
+	}
 private:
 	T m_data;
+	int m_priority;
 	LinkNode* m_next;	// Self-referencial Pointer
 	LinkNode* m_previous;
 };
