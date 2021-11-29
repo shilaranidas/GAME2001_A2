@@ -57,6 +57,15 @@ public:
 		m_node = nullptr;
 	}
 	~LinkIterator() {}
+	LinkNode<T>* GetNode() {
+		return m_node;
+	}
+	T GetNodeData() {
+		return m_node->GetData();
+	}
+	int GetNodePriority() {
+		return m_node->GetPriority();
+	}
 	// ----------- OVERLOADED OPERATORS ------------------
 	// Assignmnet operator (=) <-- Set the iterator to point to a node  // a = b
 	void operator=(LinkNode<T>* node)
