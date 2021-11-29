@@ -144,7 +144,17 @@ public:
 		return m_lastNode;
 	}
 	// --------------- LINKED LIST OPERATIONS ---------------------
-	void Push_Front(T newData)
+	void Push(T newData, int priority) {
+		LinkNode<T>* node = new LinkNode<T>;
+
+		assert(node != nullptr);
+		node->setData(newData);
+		node->setNextNode(nullptr);
+		node->setPreviousNode(nullptr);
+		node->setProiority(priority);
+		m_size++;
+	}
+	/*void Push_Front(T newData)
 	{
 		// Create a new node (new root node)
 		LinkNode<T>* node = new LinkNode<T>;
@@ -167,8 +177,8 @@ public:
 		}
 
 		m_size++;
-	}
-	void Pop_Front()
+	}*/
+	void Pop()
 	{
 		assert(m_root != nullptr);
 
@@ -191,8 +201,9 @@ public:
 		temp = nullptr;
 		
 		m_size = (m_size == 0 ? m_size : m_size - 1);
+		cout << "Front node has been removed successfully" << endl;
 	}
-	void Push_Back(T newData)
+	/*void Push_Back(T newData)
 	{
 		// Create a standalone LinkNode object
 		LinkNode<T>* node = new LinkNode<T>;
@@ -240,7 +251,7 @@ public:
 		}
 
 		m_size = (m_size == 0 ? m_size : m_size - 1);	// Prevent negative sizes
-	}
+	}*/
 	int GetSize()
 	{
 		return m_size;
