@@ -16,28 +16,29 @@ public:
 	LinkNode(T data, int priority) {
 		m_data = data; m_priority = priority; m_next = nullptr; m_previous = nullptr;
 	}
-	void SetData(T data) {
+	
+	void setData(T data) {
 		m_data = data;
 	}
-	void SetPriority(int priority) {
+	void setPriority(int priority) {
 		m_priority = priority;
 	}
-	T GetData() {
+	T getData() {
 		return m_data;
 	}
-	int GetPriority() {
+	int getPriority() {
 		return m_priority;
 	}
-	void SetNext(LinkNode* next) {
+	void setNext(LinkNode* next) {
 		m_next = next;
 	}
-	void SetPrevious(LinkNode* previous) {
+	void setPrevious(LinkNode* previous) {
 		m_previous = previous;
 	}
-	LinkNode* GetNext() {
+	LinkNode* getNext() {
 		return m_next;
 	}
-	LinkNode* GetPrevious() {
+	LinkNode* getPrevious() {
 		return m_previous;
 	}
 private:
@@ -116,6 +117,9 @@ public:
 	{
 		return (m_node != NULL);
 	}
+	LinkNode<T>* getNode() {
+		return m_node;
+	}
 
 private:
 	LinkNode<T>* m_node;	// Pointer to a node in the linked list
@@ -155,11 +159,8 @@ public:
 	{
 		assert(it.m_node != nullptr);
 
-		LinkNode<T>* node = new LinkNode<T>;
-		assert(node != nullptr);
-
-		node->m_data = newData;
-		node->m_priority = priority;
+		LinkNode<T>* node = new LinkNode<T>(newData, priority);
+		assert(node != nullptr);		
 		node->m_next = it.m_node;
 		node->m_previous = it.m_node->m_previous;
 
@@ -184,11 +185,8 @@ public:
 	{
 		assert(it.m_node != nullptr);
 
-		LinkNode<T>* node = new LinkNode<T>;
-		assert(node != nullptr);
-
-		node->m_data = newData;
-		node->m_priority = priority;
+		LinkNode<T>* node = new LinkNode<T>(newData, priority);
+		assert(node != nullptr);		
 		node->m_next = it.m_node->m_next;
 		node->m_previous = it.m_node;
 
@@ -210,13 +208,10 @@ public:
 	
 	// --------------- LINKED LIST OPERATIONS ---------------------
 	void Push(T newData, int priority) {
-		LinkNode<T>* node = new LinkNode<T>;
+		LinkNode<T>* node = new LinkNode<T>(newData, priority);
 
 		assert(node != nullptr);
-		node->setData(newData);
-		node->setNextNode(nullptr);
-		node->setPreviousNode(nullptr);
-		node->setProiority(priority);
+		
 		if (m_root != nullptr) // Linked List has at least 1 item
 		{
 			//node->m_next = m_root;
@@ -227,21 +222,21 @@ public:
 			it = Begin();
 			while (it != End())
 			{
-				if (it == Last() && priority > it.getNode()->getProiority())
+				if (it == Last() && priority > it.getNode()->getPriority())
 				{
 					Insert_After(it, newData, priority);
 					break;
 				}
-				if (priority > it.getNode()->getProiority()) {
+				if (priority > it.getNode()->getPriority()) {
 					it++;
 				}
-				if (priority < it.getNode()->getProiority()) {
+				if (priority < it.getNode()->getPriority()) {
 					Insert_Before(it, newData, priority);
 					break;
 				}
-				if (priority == it.getNode()->getProiority())
+				if (priority == it.getNode()->getPriority())
 				{
-					while (it != Last() && priority == it.getNode()->getNextNode()->getProiority())
+					while (it != Last() && priority == it.getNode()->getNext()->getPriority())
 					{
 						it++;
 					}
@@ -255,8 +250,9 @@ public:
 		{
 			m_root = node;
 			m_lastNode = node;
+			m_size++;
 		}
-		m_size++;
+		
 	}
 	/*void Push_Front(T newData)
 	{
@@ -358,6 +354,7 @@ public:
 	}*/
 	int GetSize()
 	{
+		
 		return m_size;
 	}
 private:
