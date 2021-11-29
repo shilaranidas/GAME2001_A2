@@ -139,7 +139,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="GAME2001_A2.cpp" />
     <ClCompile Include="PriorityQueueTest.cpp" />
   </ItemGroup>
   <ItemGroup>
